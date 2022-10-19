@@ -1,28 +1,25 @@
 class Solution {
 public:
-    
-    int check(int n, int m, vector<vector<int>> &triangle,vector<vector<int>> &dp)
-    {
-        if(n==triangle.size()-1)
-            return triangle[n][m];
+    int minimumTotal(vector<vector<int>>& nums) {
+        int n = nums.size();
         
-        if(dp[n][m]!=-1)
-            return dp[n][m];
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
         
-        int down = check(n+1,m,triangle,dp);
-        int diagonal = check(n+1,m+1,triangle,dp);
+        for(int i=0;i<n;i++)
+        {
+            dp[n-1][i] = nums[n-1][i];
+        }
         
-        return dp[n][m] = triangle[n][m] + min(down,diagonal);
-    }
-    
-    int minimumTotal(vector<vector<int>>& triangle) {
-        
-        int n = triangle.size();
-        int m = triangle[n-1].size();
-        
-        vector<vector<int>> dp(n+1,vector<int>(m+1,-1));
-        
-        int ans = check(0,0,triangle,dp);
-        return ans;
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int j=i;j>=0;j--)
+            {
+                int down = dp[i+1][j];
+                int diagonal = dp[i+1][j+1];
+                
+                dp[i][j] = nums[i][j] + min(down, diagonal);
+            }
+        }
+        return dp[0][0];
     }
 };
