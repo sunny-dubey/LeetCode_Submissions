@@ -16,9 +16,37 @@ public:
     
     int longestCommonSubsequence(string text1, string text2) {
         
-        vector<vector<int>> dp(text1.size(),vector<int>(text2.size(),-1));
-         
-        return check(text1.size()-1,text2.size()-1,text1,text2,dp);
+        vector<vector<int>> dp(text1.size(),vector<int>(text2.size(),0));
+        int n = text1.size();
+        int m = text2.size();
+        
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(text1[i]==text2[j]){
+                    dp[i][j] =1;
+                    if(i-1>=0 and j-1>=0)
+                        dp[i][j]+=dp[i-1][j-1];
+                        
+                }
+        
+                else{
+                    int x = 0;
+                    int y = 0;
+                    if(i-1>=0)
+                        x = dp[i-1][j];
+                    if(j-1>=0)
+                        y = dp[i][j-1];
+                    dp[i][j] = max(x,y);
+                    
+                }
+                
+            }
+        }
+        return dp[n-1][m-1];
         
         
     }
