@@ -1,41 +1,37 @@
 class Solution {
 public:
     
-    int check(vector<int> &a)
+    int check(int n, vector<int> &nums,vector<int> &dp)
     {
-        int n = a.size();
-        int prev1 = a[0];
-        int prev2 = 0;
+        if(n==0)
+            return nums[n];
+        if(dp[n]!=-1)
+            return dp[n];
         
-        for(int i=1;i<n;i++)
-        {
-            int take = a[i];
-            if(i-2>=0)
-                take+=prev2;
-            int not_take = prev1;
-            
-            int curr =  max(take,not_take);
-            
-            prev2 = prev1;
-            prev1 = curr;
-        }
-        return prev1;
+        int not_pick = check(n-1,nums,dp);
+        int pick = nums[n];
+        if(n-2>=0)
+            pick+=check(n-2,nums,dp);
+        
+        int ans = max(pick,not_pick);
+        return dp[n] = ans;
     }
     
-    
     int rob(vector<int>& nums) {
+        
         int n = nums.size();
         if(n==1)
             return nums[0];
-        vector<int> temp1,temp2;
+        vector<int> a;
+        vector<int> b;
+        for(int i=0;i<n-1;i++)
+            a.push_back(nums[i]);
+        for(int i=1;i<n;i++)
+            b.push_back(nums[i]);
+        vector<int> dp1(n+1,-1);
+        vector<int> dp2(n+1,-1);
+        int ans = max(check(n-2,a,dp1),check(n-2,b,dp2));
+        return ans;
         
-        for(int i=0;i<n;i++)
-        {
-            if(i!=0)
-                temp1.push_back(nums[i]);
-            if(i!=n-1)
-                temp2.push_back(nums[i]);
-        }
-        return max(check(temp1),check(temp2));
     }
 };
