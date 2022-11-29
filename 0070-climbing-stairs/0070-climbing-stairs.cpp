@@ -1,23 +1,23 @@
 class Solution {
 public:
     
-    int rec(int n,vector<int> &dp)
+    int check(int n, vector<int> &dp)
     {
         if(n==0)
             return 1;
+        if(n<0)
+            return 0;
         if(dp[n]!=-1)
             return dp[n];
         
-        int ans = 0;
-        for(int i=1;i<=2;i++){
-            if(n-i>=0)
-              ans+=rec(n-i,dp);
-        }
+        int ans = check(n-1,dp) + check(n-2,dp);
         return dp[n] = ans;
     }
     
     int climbStairs(int n) {
+        
         vector<int> dp(n+1,-1);
-        return rec(n,dp);
+        int ans = check(n,dp);
+        return ans;
     }
 };
