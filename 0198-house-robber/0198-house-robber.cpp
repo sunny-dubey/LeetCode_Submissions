@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    int check(int n, vector<int> &nums, vector<int> &dp)
+    int check(int n, vector<int> &nums,vector<int> &dp)
     {
         if(n==0)
             return nums[0];
@@ -9,21 +9,24 @@ public:
         if(dp[n]!=-1)
             return dp[n];
         
-        int left = 0;
         
+        
+        int not_pick = check(n-1,nums,dp);
+        int pick = nums[n];
         if(n-2>=0)
-           left = check(n-2,nums,dp);;
-        int right = check(n-1,nums,dp);
+            pick += check(n-2,nums,dp);
         
-        return dp[n] = max(left + nums[n],right);
+        int ans = max(pick,not_pick);
+        return dp[n]  = ans;
+        
+        
     }
     
     int rob(vector<int>& nums) {
-        
         int n = nums.size();
         vector<int> dp(n+1,-1);
         
-        return check(n-1,nums,dp);
+        return check(nums.size()-1,nums,dp);
         
     }
 };
