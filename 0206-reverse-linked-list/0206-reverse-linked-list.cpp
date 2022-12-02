@@ -12,24 +12,20 @@ class Solution {
 public:
     
     
-    void reverse(ListNode*& head,ListNode*& current,ListNode*& previous)
+    ListNode* reverse(ListNode*& head)
     {
-        if(current==NULL){
-            head = previous;
-            return;
-        }
-        ListNode *forward = current->next;
-        reverse(head,forward,current);
-        current->next = previous;
+        // base case 
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode* miniHead = reverse(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return miniHead;
+        
         
     }
     
-    
-    
     ListNode* reverseList(ListNode* head) {
-        ListNode* current = head;
-        ListNode* previous = NULL;
-        reverse(head,current,previous);
-        return head;
+        return reverse(head);
     }
 };
